@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>새로워진 라이브클래스 · 기본 서비스 변경점</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f5f5f3; --ink: #1a1a1a; --muted: #666; --line: #e6e6e3;
+    --old: #b06a1f; --old-soft: #f3f2ef; --old-line: #e2ddd4; --old-pin: #e07000;
+    --new: #2e7d32; --new-soft: #f0faf5; --new-line: #c8ecd8; --new-pin: #2e9e47;
+    --warn: #e07000;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.55;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 88px 16px 40px; -webkit-font-smoothing: antialiased;
+  }
+  .slide {
+    width: 1100px; max-width: 100%;
+    background: #fff; border-radius: 20px;
+    padding: 42px 50px; margin-bottom: 24px;
+    box-shadow: 0 2px 14px rgba(0,0,0,.06);
+    display: none; position: relative;
+  }
+  .slide.active { display: block; }
+  .snum { position: absolute; top: 22px; right: 28px; font-size: 12px; color: #ccc; letter-spacing: .05em; }
+  .eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #aaa; margin-bottom: 10px; }
+  h1 { font-size: 30px; font-weight: 800; line-height: 1.25; letter-spacing: -.01em; margin-bottom: 6px; }
+  h1 em { font-style: normal; color: var(--new); }
+  .sub { font-size: 14.5px; color: var(--muted); margin-bottom: 6px; }
+
+  /* 화면 매핑 */
+  .maps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 18px; align-items: start; }
+  .maps.solo { grid-template-columns: 1fr; justify-items: center; }
+  .col-cap { font-size: 13px; font-weight: 700; padding: 5px 13px; border-radius: 999px; margin-bottom: 10px; display: inline-block; }
+  .col-cap.old { background: var(--old-soft); color: var(--old); border: 1px solid var(--old-line); }
+  .col-cap.new { background: var(--new-soft); color: var(--new); border: 1px solid var(--new-line); }
+  .screen { position: relative; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; }
+  .screen img { width: 100%; height: auto; display: block; }
+
+  /* 범례 */
+  .leg { margin-top: 16px; display: flex; flex-direction: column; gap: 9px; }
+  .leg-item { display: flex; align-items: center; gap: 10px; font-size: 14.5px; flex-wrap: wrap; }
+  .leg-num { width: 23px; height: 23px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .leg-item .l1 { color: #555; }
+  .leg-item .arr { color: #bbb; }
+  .leg-item .l2 { font-weight: 700; color: var(--ink); }
+  .leg-item .chg { font-size: 11px; font-weight: 700; color: var(--warn); background: #fff3e6; padding: 2px 8px; border-radius: 8px; }
+  .leg-note { font-size: 12.5px; color: #aaa; margin-top: 4px; }
+
+  /* 표 */
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+  thead th { text-align: left; padding: 10px 12px; background: #fafafa; border-bottom: 2px solid var(--line); font-size: 12px; color: #888; font-weight: 700; }
+  tbody td { padding: 10px 12px; border-bottom: 1px solid #f0f0ee; }
+  .arrow-cell { color: #ccc; text-align: center; width: 32px; }
+  .tcell .where, .tcell .cond { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 8px; margin-right: 6px; }
+  .cond { background: var(--new-soft); color: var(--new); }
+  .b-chg { font-size: 11px; font-weight: 700; color: var(--warn); background: #fff3e6; padding: 2px 8px; border-radius: 8px; }
+  .yes { color: var(--new); font-weight: 800; }
+  .no { color: #c0392b; font-weight: 800; }
+  .footnote { margin-top: 16px; font-size: 12.5px; color: #aaa; }
+
+  /* 진행 순서 (아젠다) */
+  .agenda { margin-top: 26px; display: flex; flex-direction: column; gap: 12px; }
+  .ag-item { display: flex; gap: 18px; align-items: flex-start; border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; background: #fafafa; }
+  .ag-num { width: 34px; height: 34px; border-radius: 50%; background: var(--new); color: #fff; font-size: 16px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ag-body h3 { font-size: 16.5px; font-weight: 700; line-height: 1.4; margin-bottom: 4px; }
+  .ag-body p { font-size: 13.5px; color: var(--muted); }
+  .ag-body p b { color: var(--ink); font-weight: 700; }
+
+  /* before/after 스크린샷 */
+  .struct { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 18px; align-items: start; }
+  .shot { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; }
+  .shot img { width: 100%; height: auto; display: block; }
+  .cap-mini { font-size: 13px; font-weight: 700; color: #555; margin: 4px 0 8px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .tagx { font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 8px; }
+  .tagx.old { background: var(--old-soft); color: var(--old); }
+  .tagx.new { background: var(--new-soft); color: var(--new); }
+
+  .ov-concl { margin-top: 18px; background: #eef8f1; border: 1px solid var(--new-line); border-radius: 12px; padding: 14px 20px; font-size: 14px; color: #1f5c3a; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+  .ov-concl .ar { color: var(--new); font-weight: 800; font-size: 18px; flex-shrink: 0; }
+
+  /* 용어 변경 칩 */
+  .rename { margin-top: 22px; }
+  .rename .rt { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--warn); font-weight: 800; margin-bottom: 10px; }
+  .rename-ex { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .rchip { font-size: 14px; font-weight: 700; padding: 7px 14px; border-radius: 10px; }
+  .rchip.old { background: var(--old-soft); color: var(--old); border: 1px solid var(--old-line); }
+  .rchip.new { background: var(--new-soft); color: var(--new); border: 1px solid var(--new-line); }
+  .rename-ex .ra { color: #ccc; font-size: 18px; }
+  .rename-note { font-size: 12.5px; color: #aaa; margin-top: 8px; line-height: 1.5; }
+  .typechips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .tchip { font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 999px; background: var(--new-soft); color: var(--new); border: 1px solid var(--new-line); }
+
+  /* 상품 상태 카드 */
+  .sbadge { display: inline-block; font-size: 12px; font-weight: 800; padding: 3px 11px; border-radius: 8px; }
+  .sbadge.draft { background: #fde7d9; color: #b5560f; }
+  .sbadge.onsale { background: #e7f0fd; color: #1d63c9; }
+  .sbadge.stopped { background: #2b2b2b; color: #fff; }
+  .stat-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 20px; }
+  .stat-card { border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; background: #fafafa; }
+  .stat-card h3 { font-size: 16px; margin: 12px 0 6px; font-weight: 700; }
+  .stat-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  /* 경고 박스 (결제 URL) */
+  .warnbox { margin-top: 18px; border: 1px solid #f0cfa8; background: #fff6ec; border-radius: 16px; padding: 22px 24px; }
+  .warnbox .wh { display: flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 800; color: #b5560f; margin-bottom: 14px; }
+  .warnbox .wh .ic { width: 24px; height: 24px; border-radius: 50%; background: var(--warn); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .urlrow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 4px 0 14px; }
+  .url { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13.5px; padding: 8px 14px; border-radius: 9px; }
+  .url.old { background: #f3f2ef; color: #9a8f80; text-decoration: line-through; }
+  .url.new { background: #eef8f1; color: #1f5c3a; font-weight: 700; border: 1px solid var(--new-line); }
+  .wpoint { font-size: 13.5px; color: #6f5636; line-height: 1.6; margin-top: 9px; display: flex; gap: 9px; }
+  .wpoint .d { color: var(--warn); font-weight: 800; flex-shrink: 0; }
+  .wpoint b { color: #b5560f; }
+
+  /* 상세페이지 변화 카드 */
+  .cardgrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 20px; }
+  .infocard { border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; background: #fafafa; }
+  .infocard .ico { font-size: 20px; }
+  .infocard h4 { font-size: 15px; font-weight: 700; margin: 8px 0 5px; }
+  .infocard p { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  .nav { position: fixed; top: 22px; left: 50%; transform: translateX(-50%); z-index: 100;
+    display: flex; gap: 12px; align-items: center; background: #fff; padding: 8px 14px;
+    border-radius: 999px; box-shadow: 0 4px 18px rgba(0,0,0,.12); }
+  .btn { padding: 8px 20px; border-radius: 999px; border: 1px solid #ddd; background: #fff; font-size: 14px; cursor: pointer; color: #555; }
+  .btn:hover { background: #f0f0f0; }
+  .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .prog { font-size: 13px; color: #999; min-width: 46px; text-align: center; }
+</style>
+</head>
+<body>
+
+<!-- ════ SLIDE 1 : 개요 ════ -->
+<div class="slide active" id="s1">
+  <span class="snum">1 / 8</span>
+  <div class="eyebrow">기존 고객 안내 · 기본 서비스 변경점</div>
+  <h1>새로워진 라이브클래스, 이렇게 <em>달라집니다</em></h1>
+  <p class="sub">새로 추가된 '판매 설정'은 <b>별도 안내</b>로 다룹니다. 이 문서는 기존에 쓰시던 기능이 새로워진 라이브클래스에서 어떻게 바뀌는지 — 이름·위치·상태 체계 중심으로 정리했습니다. <b>기능과 데이터는 그대로 유지</b>됩니다.</p>
+
+  <div class="agenda">
+    <div class="ag-item">
+      <span class="ag-num">1</span>
+      <div class="ag-body">
+        <h3>메뉴·용어 개편 — '클래스'가 '상품'으로</h3>
+        <p>관리 메뉴·생성/설정 버튼의 명칭이 <b>상품</b> 중심으로 바뀌고, 상품 유형이 4종으로 세분화됩니다.</p>
+      </div>
+    </div>
+    <div class="ag-item">
+      <span class="ag-num">2</span>
+      <div class="ag-body">
+        <h3>상품 상태 체계 신설</h3>
+        <p><b>설정 중 · 판매 중 · 판매 중단</b> 3단계로 상태를 명확히 나눴습니다.</p>
+      </div>
+    </div>
+    <div class="ag-item">
+      <span class="ag-num">3</span>
+      <div class="ag-body">
+        <h3>노출 설정 · 상품 목록 정비</h3>
+        <p>공개/비공개 용어가 바뀌고, 목록에 <b>'상품 상태' 필터</b>가 생겼습니다.</p>
+      </div>
+    </div>
+    <div class="ag-item">
+      <span class="ag-num">4</span>
+      <div class="ag-body">
+        <h3>결제 페이지 URL 변경 <span class="b-chg">확인 필요</span></h3>
+        <p>결제 페이지 주소 구조가 바뀝니다. GA·Meta 등 <b>트래킹 설정을 쓰신다면 점검</b>이 필요합니다.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 2 : 메뉴·용어 ════ -->
+<div class="slide" id="s2">
+  <span class="snum">2 / 8</span>
+  <div class="eyebrow">메뉴 · 용어 개편</div>
+  <h1>'클래스'가 <em>'상품'</em>이 됩니다</h1>
+  <p class="sub">강의 외에도 실물·챌린지 등 다양한 판매 대상을 담기 위해, '클래스'를 더 넓은 '상품' 개념으로 확장했습니다. 기능·동작은 그대로입니다.</p>
+
+  <div class="struct">
+    <div>
+      <span class="col-cap old">Before · 클래스 관리</span>
+      <div class="cap-mini">관리 메뉴 = <b>클래스 관리</b></div>
+      <div class="shot"><img src="assets/lk10_admin_menus.png" alt="기존 라이브클래스 클래스 관리 메뉴"></div>
+    </div>
+    <div>
+      <span class="col-cap new">After · 상품 관리</span>
+      <div class="cap-mini">관리 메뉴 = <b>상품 관리</b> (전체 상품 + 유형별)</div>
+      <div class="shot"><img src="assets/lk20_admin_product_list.png" alt="새 라이브클래스 상품 관리 목록"></div>
+    </div>
+  </div>
+
+  <div class="rename">
+    <div class="rt">바뀐 명칭</div>
+    <div class="rename-ex">
+      <span class="rchip old">클래스 관리</span><span class="ra">→</span><span class="rchip new">상품 관리</span>
+      <span class="rchip old" style="margin-left:6px;">클래스 생성</span><span class="ra">→</span><span class="rchip new">상품 생성</span>
+      <span class="rchip old" style="margin-left:6px;">[클래스 설정]</span><span class="ra">→</span><span class="rchip new">[상품 설정]</span>
+    </div>
+    <div class="cap-mini" style="margin-top:14px;">상품 유형이 4종으로 세분화 <span class="tagx new">신규</span></div>
+    <div class="typechips">
+      <span class="tchip">강의</span><span class="tchip">라이브</span><span class="tchip">디지털 상품</span><span class="tchip">패키지</span>
+    </div>
+    <div class="rename-note">기존 '프로그램 페이지'에서만 만들던 <b>패키지</b>도, 이제 '사이트 관리 &gt; 상품 관리'에서 함께 생성·관리할 수 있습니다. → 모든 상품을 한 곳에서.</div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 3 : 상품 상태 체계 ════ -->
+<div class="slide" id="s3">
+  <span class="snum">3 / 8</span>
+  <div class="eyebrow">신규 · 상품 상태 체계</div>
+  <h1>상품 상태가 <em>3단계</em>로 명확해집니다</h1>
+  <p class="sub">기존 라이브클래스에서 혼용되던 '비공개' 상태를 <b>'설정 중 (미완결 상태)'</b>와 <b>'일부 공개 (비노출)'</b>로 분리해, 상태의 의미를 분명히 했습니다.</p>
+
+  <div class="stat-cards">
+    <div class="stat-card">
+      <span class="sbadge draft">설정 중</span>
+      <h3>아직 준비 중인 초안</h3>
+      <p>판매 준비가 완료되지 않은 상태. 상세 페이지가 형성되지 않아 구매자가 접근할 수 없습니다.</p>
+    </div>
+    <div class="stat-card">
+      <span class="sbadge onsale">판매 중</span>
+      <h3>구매 가능</h3>
+      <p>구매자가 상품·패키지를 구매할 수 있는 상태입니다.</p>
+    </div>
+    <div class="stat-card">
+      <span class="sbadge stopped">판매 중단</span>
+      <h3>신규 판매만 중단</h3>
+      <p>크리에이터가 신규 판매를 멈춘 상태. <b>기존 수강생은 영향 없이</b> 이용하며, 신규 결제만 막힙니다.</p>
+    </div>
+  </div>
+
+  <table>
+    <thead><tr><th style="width:20%">시점</th><th style="width:40%">Before</th><th>After</th></tr></thead>
+    <tbody>
+      <tr><td><b>최초 생성</b></td><td>'비공개'로 생성 — 사이트에 안 보이지만 URL로 접근·구매 가능</td><td><span class="sbadge draft">설정 중</span> 으로 생성 — 상세 페이지 미형성, 구매자 접근 불가</td></tr>
+      <tr><td><b>판매 시작</b></td><td>'비공개' → '공개' 전환 시 사이트 노출</td><td>'설정 중' → <span class="sbadge onsale">판매 중</span> (전체 공개 / 일부 공개 선택)</td></tr>
+      <tr><td><b>판매 중단</b></td><td>해당 개념 없음</td><td>'판매 중' → <span class="sbadge stopped">판매 중단</span> — 기존 수강생 유지, 신규 결제만 차단</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ════ SLIDE 4 : 노출 설정 & 조합 ════ -->
+<div class="slide" id="s4">
+  <span class="snum">4 / 8</span>
+  <div class="eyebrow">노출 설정 · 상태 × 노출 조합</div>
+  <h1>'공개/비공개'는 <em>'전체 공개 / 일부 공개'</em>로</h1>
+  <p class="sub">노출 여부를 정하는 용어가 더 직관적으로 바뀌었습니다. 동작 방식은 기존 라이브클래스와 같습니다.</p>
+
+  <div class="rename-ex" style="margin-top:16px;">
+    <span class="rchip old">공개</span><span class="ra">→</span><span class="rchip new">전체 공개</span>
+    <span class="rchip old" style="margin-left:10px;">비공개</span><span class="ra">→</span><span class="rchip new">일부 공개</span>
+    <span style="font-size:12.5px;color:#aaa;margin-left:6px;">전체 공개 = 사이트에 노출 · 일부 공개 = 사이트에 미노출(URL로만 접근)</span>
+  </div>
+
+  <table>
+    <thead><tr>
+      <th style="width:20%">상품 상태</th><th style="width:20%">노출 설정</th>
+      <th>사이트 노출</th><th>상세 페이지 진입</th><th>구매</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><span class="sbadge draft">설정 중</span></td><td>—</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td></tr>
+      <tr><td><span class="sbadge onsale">판매 중</span></td><td>전체 공개</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td></tr>
+      <tr><td><span class="sbadge onsale">판매 중</span></td><td>일부 공개</td><td class="no">✕</td><td class="yes">○</td><td class="yes">○</td></tr>
+      <tr><td><span class="sbadge stopped">판매 중단</span></td><td>전체 공개</td><td class="yes">○</td><td class="yes">○</td><td class="no">✕</td></tr>
+      <tr><td><span class="sbadge stopped">판매 중단</span></td><td>일부 공개</td><td class="no">✕</td><td class="yes">○</td><td class="no">✕</td></tr>
+    </tbody>
+  </table>
+  <div class="footnote">※ 노출 설정은 <b>'판매 중'·'판매 중단'</b> 상태에만 적용됩니다. '설정 중' 상태에는 적용되지 않습니다.</div>
+</div>
+
+<!-- ════ SLIDE 5 : 상품 목록 화면 변화 ════ -->
+<div class="slide" id="s5">
+  <span class="snum">5 / 8</span>
+  <div class="eyebrow">상품 목록 화면 변화</div>
+  <h1>목록에서 <em>상태로 관리</em>합니다</h1>
+  <p class="sub">비공개 탭 대신 '상품 상태' 필터로 걸러 보고, 유형·공개 상태·판매 상태를 한 화면에서 확인합니다.</p>
+
+  <div class="maps solo">
+    <div class="screen" style="max-width:920px;"><img src="assets/lk2_product_list.png" alt="새 라이브클래스 전체 상품 목록 화면"></div>
+  </div>
+
+  <div class="leg">
+    <div class="leg-item"><span class="leg-num">1</span><span class="l1">기존 <b>&lt;비공개&gt; 탭</b></span><span class="arr">→</span><span class="l2">'상품 상태' 필터</span><span class="chg">설정중·판매중·판매중단으로 필터</span></div>
+    <div class="leg-item"><span class="leg-num">2</span><span class="l1">목록의 <b>공개 여부 On/Off 토글</b> 제외</span><span class="arr">→</span><span class="l2">[고급 설정]에서 공개 상태 변경</span></div>
+    <div class="leg-item"><span class="leg-num">3</span><span class="l1">목록 컬럼 정리 — <b>가격 · 수강생 수/모집 정원 · 모집 기간</b> 컬럼 제외</span></div>
+    <div class="leg-note">※ 한 상품에 여러 판매 조건(서로 다른 가격·수량·기간)이 적용될 수 있어, 하나로 특정되는 값은 목록에서 뺐습니다.</div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 6 : 결제 페이지 URL 변경 ════ -->
+<div class="slide" id="s6">
+  <span class="snum">6 / 8</span>
+  <div class="eyebrow">결제 페이지 · 개발 / 트래킹 영향</div>
+  <h1>결제 페이지 <em>URL 구조</em>가 바뀝니다</h1>
+  <p class="sub">'판매 조건' 개념이 도입되면서 결제 페이지 구조가 새로 설계되어, 주소가 달라집니다.</p>
+
+  <div class="warnbox">
+    <div class="wh"><span class="ic">!</span>결제 페이지 URL 변경</div>
+    <div class="urlrow">
+      <span class="url old">/classes/{클래스id}/payment?id=…</span>
+      <span style="color:#c9a06a;font-size:18px;">→</span>
+      <span class="url new">/order/{주문id}?mkt_product_seq={클래스id}</span>
+    </div>
+    <div class="wpoint"><span class="d">•</span><span><b>트래킹 설정 점검:</b> GA·Meta 등에서 기존 1.0 결제 페이지 URL로 커스텀 이벤트(전환 등)를 설정했다면, <b>신규 URL 구조로 수정</b>해야 합니다.</span></div>
+    <div class="wpoint"><span class="d">•</span><span><b>결제 다이렉트(딥링크) URL 제공 불가:</b> 판매 조건 없이는 결제 페이지에 진입할 수 없고, URL에 주문 ID가 없으면 상품 정보를 조회할 수 없어 — 기존처럼 상품 결제 페이지로 바로 보내는 고정 URL은 제공되지 않습니다.</span></div>
+  </div>
+  <div class="footnote">※ 이 변경은 트래킹·딥링크를 직접 설정해 쓰시는 경우에만 영향이 있습니다. 일반적인 판매·구매 흐름에는 영향이 없습니다.</div>
+</div>
+
+<!-- ════ SLIDE 7 : 상세 페이지 변화 ════ -->
+<div class="slide" id="s7">
+  <span class="snum">7 / 8</span>
+  <div class="eyebrow">상품 상세 페이지 변화</div>
+  <h1>상세 페이지, <em>이런 점</em>이 달라집니다</h1>
+  <p class="sub">구매자·관리자가 보는 상품 상세 페이지의 소소한 변경점입니다.</p>
+
+  <div class="cardgrid">
+    <div class="infocard">
+      <div class="ico">⚙️</div>
+      <h4>설정 진입 버튼 이동</h4>
+      <p>상세 페이지의 <b>[클래스 설정]</b> 버튼이 <b>[상품 설정]</b>으로 바뀌고, 진입 위치가 정비되었습니다.</p>
+    </div>
+    <div class="infocard">
+      <div class="ico">📚</div>
+      <h4>강의 정보 위치 이동</h4>
+      <p>기존의 <b>가격 패널 하단</b>의 강의 정보가 상세 페이지의 <b>콘텐츠 영역</b>으로 이동했습니다.</p>
+    </div>
+    <div class="infocard">
+      <div class="ico">🗂️</div>
+      <h4>'클래스 관리 기능' 카드 제거</h4>
+      <p>클래스 상세 페이지의 가격 패널 아래의 <b>'클래스 관리 기능' 플로팅 카드 영역</b>(클래스 복사·삭제)이 제거되었습니다. 복사·삭제는 '상품 관리' 목록과 상품 설정 ⋮ 메뉴로 이동했습니다.</p>
+    </div>
+  </div>
+  <div class="ov-concl" style="margin-top:20px;"><span class="ar">→</span>상세 페이지의 <b>판매 조건·추가 구성</b> 노출 방식은 '판매 설정' 안내 문서에서 자세히 다룹니다.</div>
+</div>
+
+<!-- ════ SLIDE 8 : 요약 ════ -->
+<div class="slide" id="s8">
+  <span class="snum">8 / 8</span>
+  <div class="eyebrow">전체 요약</div>
+  <h1>한눈에 보는 기본 변경점</h1>
+  <table>
+    <thead><tr><th style="width:22%">구분</th><th style="width:34%">Before</th><th>After</th></tr></thead>
+    <tbody>
+      <tr><td>관리 메뉴</td><td>클래스 관리</td><td><b>상품 관리</b> (전체 상품 · 강의 · 라이브 · 디지털 상품 · 패키지)</td></tr>
+      <tr><td>생성 버튼</td><td>클래스 생성</td><td><b>상품 생성</b></td></tr>
+      <tr><td>설정 버튼</td><td>[클래스 설정]</td><td><b>[상품 설정]</b></td></tr>
+      <tr><td>상품 상태</td><td>공개 / 비공개 (혼용)</td><td><span class="sbadge draft">설정 중</span> <span class="sbadge onsale">판매 중</span> <span class="sbadge stopped">판매 중단</span></td></tr>
+      <tr><td>노출 설정</td><td>공개 / 비공개</td><td><b>전체 공개 / 일부 공개</b></td></tr>
+      <tr><td>목록 필터</td><td>&lt;비공개&gt; 탭</td><td><b>'상품 상태' 필터</b></td></tr>
+      <tr><td>공개 On/Off</td><td>목록 토글</td><td>[고급 설정]에서 <b>공개 상태 변경</b></td></tr>
+      <tr><td>결제 페이지 URL</td><td>/classes/{id}/payment?id=</td><td><b>/order/{주문id}?mkt_product_seq={클래스id}</b> &nbsp;<span class="b-chg">트래킹 확인</span></td></tr>
+    </tbody>
+  </table>
+  <div class="footnote">기능·데이터는 그대로 유지됩니다 · 새로 추가된 '판매 설정'은 별도 안내 문서를 참고해 주세요.</div>
+</div>
+
+<!-- nav -->
+<div class="nav">
+  <button class="btn" onclick="go(-1)">← 이전</button>
+  <span class="prog" id="prog">1 / 8</span>
+  <button class="btn primary" onclick="go(1)">다음 →</button>
+</div>
+
+<script>
+  let cur = 1; const total = 8;
+  function go(d){
+    document.getElementById('s'+cur).classList.remove('active');
+    cur = Math.max(1, Math.min(total, cur+d));
+    document.getElementById('s'+cur).classList.add('active');
+    document.getElementById('prog').textContent = cur+' / '+total;
+    window.scrollTo(0,0);
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+  });
+</script>
+</body>
+</html>
