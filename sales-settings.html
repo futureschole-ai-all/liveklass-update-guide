@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>새로워진 라이브클래스 · 변경점 통합 안내</title>
+<title>새로워진 라이브클래스 · 판매 설정 안내</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -157,89 +157,13 @@
   .btn:hover { background: #f0f0f0; }
   .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
   .prog { font-size: 13px; color: #999; min-width: 46px; text-align: center; }
-
-  /* --- 기본 변경점 전용(B) --- */
-  .yes { color: var(--new); font-weight: 800; }
-  .no { color: #c0392b; font-weight: 800; }
-  .sbadge { display: inline-block; font-size: 12px; font-weight: 800; padding: 3px 11px; border-radius: 8px; }
-  .sbadge.draft { background: #fde7d9; color: #b5560f; }
-  .sbadge.onsale { background: #e7f0fd; color: #1d63c9; }
-  .sbadge.stopped { background: #2b2b2b; color: #fff; }
-  .stat-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 20px; }
-  .stat-card { border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; background: #fafafa; }
-  .stat-card h3 { font-size: 16px; margin: 12px 0 6px; font-weight: 700; }
-  .stat-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
-  .warnbox { margin-top: 18px; border: 1px solid #f0cfa8; background: #fff6ec; border-radius: 16px; padding: 22px 24px; }
-  .warnbox .wh { display: flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 800; color: #b5560f; margin-bottom: 14px; }
-  .warnbox .wh .ic { width: 24px; height: 24px; border-radius: 50%; background: var(--warn); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-  .urlrow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 4px 0 14px; }
-  .url { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13.5px; padding: 8px 14px; border-radius: 9px; }
-  .url.old { background: #f3f2ef; color: #9a8f80; text-decoration: line-through; }
-  .url.new { background: #eef8f1; color: #1f5c3a; font-weight: 700; border: 1px solid var(--new-line); }
-  .wpoint { font-size: 13.5px; color: #6f5636; line-height: 1.6; margin-top: 9px; display: flex; gap: 9px; }
-  .wpoint .d { color: var(--warn); font-weight: 800; flex-shrink: 0; }
-  .wpoint b { color: #b5560f; }
-  .typechips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-  .tchip { font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 999px; background: var(--new-soft); color: var(--new); border: 1px solid var(--new-line); }
-  .cardgrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 20px; }
-  .infocard { border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; background: #fafafa; }
-  .infocard .ico { font-size: 20px; }
-  .infocard h4 { font-size: 15px; font-weight: 700; margin: 8px 0 5px; }
-  .infocard p { font-size: 13px; color: var(--muted); line-height: 1.55; }
-  /* 통합본 파트 소제목 */
-  .part-sub { font-size: 13px; font-weight: 800; letter-spacing: .04em; color: var(--new); margin: 26px 0 -4px; }
 </style>
 </head>
 <body>
 
+<!-- ════ SLIDE 1 : 메뉴 구조 변경 ════ -->
 <div class="slide active" id="s1">
-  <span class="snum">1 / 15</span>
-  <div class="eyebrow">고객사 안내 · 라이브클래스 개편 (통합본)</div>
-  <h1>새로워진 라이브클래스, <em>무엇이 달라지나요</em></h1>
-  <p class="sub">새로워진 라이브클래스의 변경점을 이 문서 한 편에 모았습니다. 크게 <b>① 기본 서비스 변경</b>(이름·상태·목록)과 <b>② 새로운 판매 설정</b>(판매 조건·추가 구성) 두 가지입니다. <b>기능과 데이터는 그대로 유지</b>됩니다.</p>
-  <div class="agenda">
-    <div class="ag-item"><span class="ag-num">1</span><div class="ag-body"><h3>PART 1 · 기본 서비스 변경</h3><p>'클래스'가 '상품'으로 · 관리 위치 일원화 · <b>상품 상태 3단계</b> · 노출 설정 · 상품 목록 변화</p></div></div>
-    <div class="ag-item"><span class="ag-num">2</span><div class="ag-body"><h3>PART 2 · 새로운 판매 설정</h3><p>상품 하나로 여러 <b>판매 조건</b>을, 부가 상품은 <b>추가 구성</b>으로 — 구매자 화면까지 이어집니다</p></div></div>
-    <div class="ag-item"><span class="ag-num">3</span><div class="ag-body"><h3>참고 · 개발 / 트래킹</h3><p>결제 페이지 <b>URL 변경</b>과 상세 페이지 변경점 (GA·Meta 트래킹 점검 필요)</p></div></div>
-  </div>
-</div>
-
-<div class="slide" id="s2">
-  <span class="snum">2 / 15</span>
-  <div class="eyebrow">메뉴 · 용어 개편</div>
-  <h1>'클래스'가 <em>'상품'</em>이 됩니다</h1>
-  <p class="sub">강의 외에도 실물·챌린지 등 다양한 판매 대상을 담기 위해, '클래스'를 더 넓은 '상품' 개념으로 확장했습니다. 기능·동작은 그대로입니다.</p>
-
-  <div class="struct">
-    <div>
-      <span class="col-cap old">Before · 클래스 관리</span>
-      <div class="cap-mini">관리 메뉴 = <b>클래스 관리</b></div>
-      <div class="shot"><img src="assets/lk10_admin_menus.png" alt="기존 라이브클래스 클래스 관리 메뉴"></div>
-    </div>
-    <div>
-      <span class="col-cap new">After · 상품 관리</span>
-      <div class="cap-mini">관리 메뉴 = <b>상품 관리</b> (전체 상품 + 유형별)</div>
-      <div class="shot"><img src="assets/lk20_admin_product_list.png" alt="새 라이브클래스 상품 관리 목록"></div>
-    </div>
-  </div>
-
-  <div class="rename">
-    <div class="rt">바뀐 명칭</div>
-    <div class="rename-ex">
-      <span class="rchip old">클래스 관리</span><span class="ra">→</span><span class="rchip new">상품 관리</span>
-      <span class="rchip old" style="margin-left:6px;">클래스 생성</span><span class="ra">→</span><span class="rchip new">상품 생성</span>
-      <span class="rchip old" style="margin-left:6px;">[클래스 설정]</span><span class="ra">→</span><span class="rchip new">[상품 설정]</span>
-    </div>
-    <div class="cap-mini" style="margin-top:14px;">상품 유형이 4종으로 세분화 <span class="tagx new">신규</span></div>
-    <div class="typechips">
-      <span class="tchip">강의</span><span class="tchip">라이브</span><span class="tchip">디지털 상품</span><span class="tchip">패키지</span>
-    </div>
-    <div class="rename-note">기존 '프로그램 페이지'에서만 만들던 <b>패키지</b>도, 이제 '사이트 관리 &gt; 상품 관리'에서 함께 생성·관리할 수 있습니다. → 모든 상품을 한 곳에서.</div>
-  </div>
-</div>
-
-<div class="slide" id="s3">
-  <span class="snum">3 / 15</span>
+  <span class="snum">1 / 8</span>
   <div class="eyebrow">시작 전 · 메뉴 구조 변경</div>
   <h1>클래스 관리, 이제 <em>한 공간</em>에서 끝냅니다</h1>
   <p class="sub">판매 설정을 보기 전에 — 설정하는 '위치'부터 달라졌습니다. 흩어져 있던 클래스 관리·설정이 사이트 관리 한 곳으로 모였습니다.</p>
@@ -268,88 +192,9 @@
   <div class="ov-concl" style="margin-top:24px"><span class="ar">→</span>그 한 공간 안에서, <b>판매 유형 · 가격 · 할인 · 기간 · 수량</b>을 '판매 설정' 한 화면에서 구성합니다.</div>
 </div>
 
-<div class="slide" id="s4">
-  <span class="snum">4 / 15</span>
-  <div class="eyebrow">신규 · 상품 상태 체계</div>
-  <h1>상품 상태가 <em>3단계</em>로 명확해집니다</h1>
-  <p class="sub">기존 라이브클래스에서 혼용되던 '비공개' 상태를 <b>'설정 중 (미완결 상태)'</b>와 <b>'일부 공개 (비노출)'</b>로 분리해, 상태의 의미를 분명히 했습니다.</p>
-
-  <div class="stat-cards">
-    <div class="stat-card">
-      <span class="sbadge draft">설정 중</span>
-      <h3>아직 준비 중인 초안</h3>
-      <p>판매 준비가 완료되지 않은 상태. 상세 페이지가 형성되지 않아 구매자가 접근할 수 없습니다.</p>
-    </div>
-    <div class="stat-card">
-      <span class="sbadge onsale">판매 중</span>
-      <h3>구매 가능</h3>
-      <p>구매자가 상품·패키지를 구매할 수 있는 상태입니다.</p>
-    </div>
-    <div class="stat-card">
-      <span class="sbadge stopped">판매 중단</span>
-      <h3>신규 판매만 중단</h3>
-      <p>크리에이터가 신규 판매를 멈춘 상태. <b>기존 수강생은 영향 없이</b> 이용하며, 신규 결제만 막힙니다.</p>
-    </div>
-  </div>
-
-  <table>
-    <thead><tr><th style="width:20%">시점</th><th style="width:40%">Before</th><th>After</th></tr></thead>
-    <tbody>
-      <tr><td><b>최초 생성</b></td><td>'비공개'로 생성 — 사이트에 안 보이지만 URL로 접근·구매 가능</td><td><span class="sbadge draft">설정 중</span> 으로 생성 — 상세 페이지 미형성, 구매자 접근 불가</td></tr>
-      <tr><td><b>판매 시작</b></td><td>'비공개' → '공개' 전환 시 사이트 노출</td><td>'설정 중' → <span class="sbadge onsale">판매 중</span> (전체 공개 / 일부 공개 선택)</td></tr>
-      <tr><td><b>판매 중단</b></td><td>해당 개념 없음</td><td>'판매 중' → <span class="sbadge stopped">판매 중단</span> — 기존 수강생 유지, 신규 결제만 차단</td></tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="slide" id="s5">
-  <span class="snum">5 / 15</span>
-  <div class="eyebrow">노출 설정 · 상태 × 노출 조합</div>
-  <h1>'공개/비공개'는 <em>'전체 공개 / 일부 공개'</em>로</h1>
-  <p class="sub">노출 여부를 정하는 용어가 더 직관적으로 바뀌었습니다. 동작 방식은 기존 라이브클래스와 같습니다.</p>
-
-  <div class="rename-ex" style="margin-top:16px;">
-    <span class="rchip old">공개</span><span class="ra">→</span><span class="rchip new">전체 공개</span>
-    <span class="rchip old" style="margin-left:10px;">비공개</span><span class="ra">→</span><span class="rchip new">일부 공개</span>
-    <span style="font-size:12.5px;color:#aaa;margin-left:6px;">전체 공개 = 사이트에 노출 · 일부 공개 = 사이트에 미노출(URL로만 접근)</span>
-  </div>
-
-  <table>
-    <thead><tr>
-      <th style="width:20%">상품 상태</th><th style="width:20%">노출 설정</th>
-      <th>사이트 노출</th><th>상세 페이지 진입</th><th>구매</th>
-    </tr></thead>
-    <tbody>
-      <tr><td><span class="sbadge draft">설정 중</span></td><td>—</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td></tr>
-      <tr><td><span class="sbadge onsale">판매 중</span></td><td>전체 공개</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td></tr>
-      <tr><td><span class="sbadge onsale">판매 중</span></td><td>일부 공개</td><td class="no">✕</td><td class="yes">○</td><td class="yes">○</td></tr>
-      <tr><td><span class="sbadge stopped">판매 중단</span></td><td>전체 공개</td><td class="yes">○</td><td class="yes">○</td><td class="no">✕</td></tr>
-      <tr><td><span class="sbadge stopped">판매 중단</span></td><td>일부 공개</td><td class="no">✕</td><td class="yes">○</td><td class="no">✕</td></tr>
-    </tbody>
-  </table>
-  <div class="footnote">※ 노출 설정은 <b>'판매 중'·'판매 중단'</b> 상태에만 적용됩니다. '설정 중' 상태에는 적용되지 않습니다.</div>
-</div>
-
-<div class="slide" id="s6">
-  <span class="snum">6 / 15</span>
-  <div class="eyebrow">상품 목록 화면 변화</div>
-  <h1>목록에서 <em>상태로 관리</em>합니다</h1>
-  <p class="sub">비공개 탭 대신 '상품 상태' 필터로 걸러 보고, 유형·공개 상태·판매 상태를 한 화면에서 확인합니다.</p>
-
-  <div class="maps solo">
-    <div class="screen" style="max-width:920px;"><img src="assets/lk2_product_list.png" alt="새 라이브클래스 전체 상품 목록 화면"></div>
-  </div>
-
-  <div class="leg">
-    <div class="leg-item"><span class="leg-num">1</span><span class="l1">기존 <b>&lt;비공개&gt; 탭</b></span><span class="arr">→</span><span class="l2">'상품 상태' 필터</span><span class="chg">설정중·판매중·판매중단으로 필터</span></div>
-    <div class="leg-item"><span class="leg-num">2</span><span class="l1">목록의 <b>공개 여부 On/Off 토글</b> 제외</span><span class="arr">→</span><span class="l2">[고급 설정]에서 공개 상태 변경</span></div>
-    <div class="leg-item"><span class="leg-num">3</span><span class="l1">목록 컬럼 정리 — <b>가격 · 수강생 수/모집 정원 · 모집 기간</b> 컬럼 제외</span></div>
-    <div class="leg-note">※ 한 상품에 여러 판매 조건(서로 다른 가격·수량·기간)이 적용될 수 있어, 하나로 특정되는 값은 목록에서 뺐습니다.</div>
-  </div>
-</div>
-
-<div class="slide" id="s7">
-  <span class="snum">7 / 15</span>
+<!-- ════ SLIDE 3 : 판매 설정 개요 ════ -->
+<div class="slide" id="s2">
+  <span class="snum">2 / 8</span>
   <div class="eyebrow">새로워진 라이브클래스 · 판매 설정</div>
   <h1>한 상품에서, <em>더 유연해진 판매</em></h1>
   <p class="sub">상품을 복제하지 않고도 여러 판매 버전을, 부가 상품까지 — 한 페이지 안에서 운영합니다.</p>
@@ -376,10 +221,26 @@
   </div>
 
   <div class="ov-concl"><span class="ar">→</span>구매자는 한 페이지에서 조건을 비교하고 선택합니다. 이탈 없이 결제로 이어집니다.</div>
+
+  <div class="rename">
+    <div class="rt">바뀐 표현</div>
+    <h3>강의에만 맞던 표현을, 상품 보편적인 표현으로 정비했습니다</h3>
+    <p class="rp">라이브클래스에서 다루는 상품의 형태는 점점 다양해지고 있습니다. 그래서 강의에만 들어맞던 표현들을, 어떤 상품에도 두루 쓸 수 있는 표현으로 바꿔가고 있습니다.</p>
+    <div class="rename-ex">
+      <span class="rchip old">클래스</span>
+      <span class="ra">→</span>
+      <span class="rchip new">상품</span>
+      <span class="rchip old" style="margin-left:8px;">모집정원</span>
+      <span class="ra">→</span>
+      <span class="rchip new">판매 수량 제한</span>
+    </div>
+    <div class="rename-note"><b style="color:var(--new);">클래스 → 상품</b>은 메뉴(클래스 관리 → 상품 관리)·생성 버튼(클래스 생성 → 상품 생성)·설정 버튼([클래스 설정] → [상품 설정])·상세 페이지 명칭 전반에 걸쳐 바뀝니다. 강의 외 실물·챌린지 등 다양한 판매 대상을 포괄하기 위한 정비로, 기능·동작은 그대로입니다.</div>
+  </div>
 </div>
 
-<div class="slide" id="s8">
-  <span class="snum">8 / 15</span>
+<!-- ════ SLIDE 3 : 결제 설정 → 판매 조건 ════ -->
+<div class="slide" id="s3">
+  <span class="snum">3 / 8</span>
   <div class="eyebrow">결제 설정 → 판매 조건</div>
   <h1>가격·할인은 '판매 조건' 카드 안으로</h1>
 
@@ -407,8 +268,32 @@
   </div>
 </div>
 
-<div class="slide" id="s9">
-  <span class="snum">9 / 15</span>
+<!-- ════ SLIDE 4 : 구매자 화면 노출 (신규) ════ -->
+<div class="slide" id="s4">
+  <span class="snum">4 / 8</span>
+  <div class="eyebrow">구매자 화면 · 상품 상세 페이지</div>
+  <h1>설정한 <em>판매 조건 · 추가 구성</em>은, 구매자에게 이렇게 보입니다</h1>
+  <p class="sub">관리자가 설정한 판매 조건과 추가 구성이, 상품 상세 페이지에서 구매자에게 어떻게 보이는지 확인합니다.</p>
+
+  <div class="maps buyer">
+    <div>
+      <span class="col-cap new">① 상세 페이지 — 판매 조건</span>
+      <div class="screen"><img src="assets/buyer_conditions_panel.png" alt="구매자 상세 페이지의 판매 조건 목록"></div>
+      <div class="buyer-note"><span class="p">1</span>설정한 여러 <b>판매 조건</b>(30·60·90일 수강권 등)이 카드로 나열됩니다. 구매자는 원하는 조건을 골라 바로 신청합니다.</div>
+    </div>
+    <div>
+      <span class="col-cap new">② 구매 옵션 선택 — 판매 조건 + 추가 구성</span>
+      <div class="screen"><img src="assets/buyer_purchase_dialog.png" alt="구매 옵션 선택 창 - 판매 조건과 추가 구성"></div>
+      <div class="buyer-note"><span class="p">2</span>선택 창에서 <b>판매 조건</b>(왼쪽 카드)과 <b>추가 구성</b>(포트폴리오 리뷰·추가 구성 상품·PDF 모음 등)을 함께 담아 결제합니다.</div>
+    </div>
+  </div>
+
+  <div class="ov-concl" style="margin-top:20px;"><span class="ar">→</span>관리자 화면에서 만든 <b>'판매 조건'</b>과 <b>'추가 구성'</b>이 구매자 화면에 그대로 이어집니다. 계속해서 각 항목이 어떤 1.0 설정에서 왔는지 살펴봅니다.</div>
+</div>
+
+<!-- ════ SLIDE 5 : 일반 설정 → 판매 조건 ════ -->
+<div class="slide" id="s5">
+  <span class="snum">5 / 8</span>
   <div class="eyebrow">일반 설정 → 판매 조건</div>
   <h1>모집·수강 설정도 '판매 조건' 안으로 <span style="font-size:15px;color:var(--warn);font-weight:700;">(일부 이름 변경)</span></h1>
 
@@ -440,8 +325,9 @@
   </div>
 </div>
 
-<div class="slide" id="s10">
-  <span class="snum">10 / 15</span>
+<!-- ════ SLIDE 6 : 옵션 → 추가 구성 ════ -->
+<div class="slide" id="s6">
+  <span class="snum">6 / 8</span>
   <div class="eyebrow">옵션 설정 → 추가 구성</div>
   <h1>'옵션'은 본 상품 외 부가 판매 — '추가 구성'으로</h1>
 
@@ -467,8 +353,9 @@
   </div>
 </div>
 
-<div class="slide" id="s11">
-  <span class="snum">11 / 15</span>
+<!-- ════ SLIDE 7 : 상품 공통 설정 ════ -->
+<div class="slide" id="s7">
+  <span class="snum">7 / 8</span>
   <div class="eyebrow">판매 조건 밖 · 상품 공통 설정</div>
   <h1>판매 조건마다 반복하지 않는 항목</h1>
   <p class="sub">화폐·할부·대기자처럼 상품 전체에 한 번만 정하는 항목은, 판매 조건 카드 밖 공통 영역(판매 유형·가격 설정)에 있습니다.</p>
@@ -493,92 +380,15 @@
   </div>
 </div>
 
-<div class="slide" id="s12">
-  <span class="snum">12 / 15</span>
-  <div class="eyebrow">구매자 화면 · 상품 상세 페이지</div>
-  <h1>설정한 <em>판매 조건 · 추가 구성</em>은, 구매자에게 이렇게 보입니다</h1>
-  <p class="sub">관리자가 설정한 판매 조건과 추가 구성이, 상품 상세 페이지에서 구매자에게 어떻게 보이는지 확인합니다.</p>
-
-  <div class="maps buyer">
-    <div>
-      <span class="col-cap new">① 상세 페이지 — 판매 조건</span>
-      <div class="screen"><img src="assets/buyer_conditions_panel.png" alt="구매자 상세 페이지의 판매 조건 목록"></div>
-      <div class="buyer-note"><span class="p">1</span>설정한 여러 <b>판매 조건</b>(30·60·90일 수강권 등)이 카드로 나열됩니다. 구매자는 원하는 조건을 골라 바로 신청합니다.</div>
-    </div>
-    <div>
-      <span class="col-cap new">② 구매 옵션 선택 — 판매 조건 + 추가 구성</span>
-      <div class="screen"><img src="assets/buyer_purchase_dialog.png" alt="구매 옵션 선택 창 - 판매 조건과 추가 구성"></div>
-      <div class="buyer-note"><span class="p">2</span>선택 창에서 <b>판매 조건</b>(왼쪽 카드)과 <b>추가 구성</b>(포트폴리오 리뷰·추가 구성 상품·PDF 모음 등)을 함께 담아 결제합니다.</div>
-    </div>
-  </div>
-
-  <div class="ov-concl" style="margin-top:20px;"><span class="ar">→</span>관리자 화면에서 만든 <b>'판매 조건'</b>과 <b>'추가 구성'</b>이 구매자 화면에 그대로 이어집니다. 계속해서 각 항목이 어떤 1.0 설정에서 왔는지 살펴봅니다.</div>
-</div>
-
-<div class="slide" id="s13">
-  <span class="snum">13 / 15</span>
-  <div class="eyebrow">결제 페이지 · 개발 / 트래킹 영향</div>
-  <h1>결제 페이지 <em>URL 구조</em>가 바뀝니다</h1>
-  <p class="sub">'판매 조건' 개념이 도입되면서 결제 페이지 구조가 새로 설계되어, 주소가 달라집니다.</p>
-
-  <div class="warnbox">
-    <div class="wh"><span class="ic">!</span>결제 페이지 URL 변경</div>
-    <div class="urlrow">
-      <span class="url old">/classes/{클래스id}/payment?id=…</span>
-      <span style="color:#c9a06a;font-size:18px;">→</span>
-      <span class="url new">/order/{주문id}?mkt_product_seq={클래스id}</span>
-    </div>
-    <div class="wpoint"><span class="d">•</span><span><b>트래킹 설정 점검:</b> GA·Meta 등에서 기존 1.0 결제 페이지 URL로 커스텀 이벤트(전환 등)를 설정했다면, <b>신규 URL 구조로 수정</b>해야 합니다.</span></div>
-    <div class="wpoint"><span class="d">•</span><span><b>결제 다이렉트(딥링크) URL 제공 불가:</b> 판매 조건 없이는 결제 페이지에 진입할 수 없고, URL에 주문 ID가 없으면 상품 정보를 조회할 수 없어 — 기존처럼 상품 결제 페이지로 바로 보내는 고정 URL은 제공되지 않습니다.</span></div>
-  </div>
-  <div class="footnote">※ 이 변경은 트래킹·딥링크를 직접 설정해 쓰시는 경우에만 영향이 있습니다. 일반적인 판매·구매 흐름에는 영향이 없습니다.</div>
-</div>
-
-<div class="slide" id="s14">
-  <span class="snum">14 / 15</span>
-  <div class="eyebrow">상품 상세 페이지 변화</div>
-  <h1>상세 페이지, <em>이런 점</em>이 달라집니다</h1>
-  <p class="sub">구매자·관리자가 보는 상품 상세 페이지의 소소한 변경점입니다.</p>
-
-  <div class="cardgrid">
-    <div class="infocard">
-      <div class="ico">⚙️</div>
-      <h4>설정 진입 버튼 이동</h4>
-      <p>상세 페이지의 <b>[클래스 설정]</b> 버튼이 <b>[상품 설정]</b>으로 바뀌고, 진입 위치가 정비되었습니다.</p>
-    </div>
-    <div class="infocard">
-      <div class="ico">📚</div>
-      <h4>강의 정보 위치 이동</h4>
-      <p>기존의 <b>가격 패널 하단</b>의 강의 정보가 상세 페이지의 <b>콘텐츠 영역</b>으로 이동했습니다.</p>
-    </div>
-    <div class="infocard">
-      <div class="ico">🗂️</div>
-      <h4>'클래스 관리 기능' 카드 제거</h4>
-      <p>클래스 상세 페이지의 가격 패널 아래의 <b>'클래스 관리 기능' 플로팅 카드 영역</b>(클래스 복사·삭제)이 제거되었습니다. 복사·삭제는 '상품 관리' 목록과 상품 설정 ⋮ 메뉴로 이동했습니다.</p>
-    </div>
-  </div>
-  <div class="ov-concl" style="margin-top:20px;"><span class="ar">→</span>상세 페이지의 <b>판매 조건·추가 구성</b> 노출 방식은 '판매 설정' 안내 문서에서 자세히 다룹니다.</div>
-</div>
-
-<div class="slide" id="s15">
-  <span class="snum">15 / 15</span>
+<!-- ════ SLIDE 8 : 전체 요약 ════ -->
+<div class="slide" id="s8">
+  <span class="snum">8 / 8</span>
   <div class="eyebrow">전체 요약</div>
-  <h1>한눈에 보는 새로워진 라이브클래스 변경점</h1>
-  <div class="part-sub">PART 1 · 기본 서비스 변경</div>
-  <table>
-    <thead><tr><th style="width:22%">구분</th><th style="width:34%">Before</th><th>After</th></tr></thead>
-    <tbody>
-      <tr><td>관리 메뉴</td><td>클래스 관리</td><td><b>상품 관리</b> (전체 상품 · 강의 · 라이브 · 디지털 상품 · 패키지)</td></tr>
-      <tr><td>생성 버튼</td><td>클래스 생성</td><td><b>상품 생성</b></td></tr>
-      <tr><td>설정 버튼</td><td>[클래스 설정]</td><td><b>[상품 설정]</b></td></tr>
-      <tr><td>상품 상태</td><td>공개 / 비공개 (혼용)</td><td><span class="sbadge draft">설정 중</span> <span class="sbadge onsale">판매 중</span> <span class="sbadge stopped">판매 중단</span></td></tr>
-      <tr><td>노출 설정</td><td>공개 / 비공개</td><td><b>전체 공개 / 일부 공개</b></td></tr>
-      <tr><td>목록 필터</td><td>&lt;비공개&gt; 탭</td><td><b>'상품 상태' 필터</b></td></tr>
-      <tr><td>공개 On/Off</td><td>목록 토글</td><td>[고급 설정]에서 <b>공개 상태 변경</b></td></tr>
-      <tr><td>결제 페이지 URL</td><td>/classes/{id}/payment?id=</td><td><b>/order/{주문id}?mkt_product_seq={클래스id}</b> &nbsp;<span class="b-chg">트래킹 확인</span></td></tr>
-    </tbody>
-  </table>
-  <div class="part-sub" style="margin-top:28px;">PART 2 · 판매 설정 대응</div>
+  <h1>한눈에 보는 대응표</h1>
+  <div style="margin-top:14px; background:#fff3e6; border:1px solid #f3d9bd; border-radius:12px; padding:12px 18px; font-size:13.5px; color:#8a5313; display:flex; align-items:center; gap:10px;">
+    <span style="font-size:11px; font-weight:800; color:#fff; background:var(--warn); padding:2px 9px; border-radius:999px; flex-shrink:0;">용어 변경</span>
+    <span><b style="color:#b5560f;">클래스 → 상품</b> — 메뉴(클래스 관리 → 상품 관리) · 생성 버튼(클래스 생성 → 상품 생성) · [클래스 설정] → [상품 설정] · 상세 페이지 명칭까지 전반에 적용됩니다. 기능·동작은 그대로입니다.</span>
+  </div>
   <table>
     <thead><tr><th style="width:46%">Before</th><th class="arrow-cell"></th><th>After</th></tr></thead>
     <tbody>
@@ -594,18 +404,20 @@
       <tr><td>운영자 선정<span class="tab">일반 설정</span></td><td class="arrow-cell">→</td><td class="tcell"><span class="where member">수강생 탭</span><b>운영자 선정</b></td></tr>
     </tbody>
   </table>
-  <div class="footnote">기능·데이터는 그대로 유지됩니다 · '이름 변경'은 강의 전용 표현을 상품 보편 표현으로 정비한 것입니다.</div>
+  <div class="footnote">
+    <b style="color:#2e7d32;">판매 조건</b> = 카드 단위(상품당 최대 100개) · <b style="color:#2563eb;">가격 설정</b> = 상품 공통(1세트) · <b style="color:#e07000;">추가 구성</b> = 본 상품 외 부가 판매 · '이름 변경' = 강의 전용 표현 → 상품 보편 표현으로 정비
+  </div>
 </div>
 
 <!-- nav -->
 <div class="nav">
   <button class="btn" onclick="go(-1)">← 이전</button>
-  <span class="prog" id="prog">1 / 15</span>
+  <span class="prog" id="prog">1 / 8</span>
   <button class="btn primary" onclick="go(1)">다음 →</button>
 </div>
 
 <script>
-  let cur = 1; const total = 15;
+  let cur = 1; const total = 8;
   function go(d){
     document.getElementById('s'+cur).classList.remove('active');
     cur = Math.max(1, Math.min(total, cur+d));
