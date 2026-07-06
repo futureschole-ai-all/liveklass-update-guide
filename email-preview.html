@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>새로워진 라이브클래스 · 판매 전략 안내 이메일 (디자인 핸드오프)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root{
+    --ink:#1a1a1a; --muted:#666; --line:#e6e6e3; --bg:#f0f0ee;
+    --new:#2e7d32; --new-soft:#f0faf5; --new-line:#c8ecd8;
+    --coral:#FF3B5C; --orange:#F1502F; --dark:#111111;
+  }
+  body{ font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Apple SD Gothic Neo',sans-serif; background:var(--bg); color:var(--ink); line-height:1.65; -webkit-font-smoothing:antialiased; padding:28px 14px 64px; }
+  /* 핸드오프 안내(이메일 바깥) */
+  .handoff{ max-width:600px; margin:0 auto 16px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 18px; font-size:13px; color:var(--muted); }
+  .handoff b{ color:var(--ink); }
+  .legend{ display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:12px; }
+  .legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .dot-need{ width:12px;height:12px;border:2px dashed var(--coral);border-radius:3px; }
+  .dot-have{ width:12px;height:12px;background:var(--new-soft);border:1px solid var(--new-line);border-radius:3px; }
+
+  /* 이메일 본문 (600px) */
+  .email{ max-width:600px; margin:0 auto; background:#fff; border-radius:14px; overflow:hidden; border:1px solid var(--line); }
+  .sec{ padding:30px 32px; }
+  .sec + .sec{ border-top:1px solid var(--line); }
+  .eyebrow{ font-size:12px; letter-spacing:.12em; font-weight:800; color:var(--orange); text-transform:uppercase; }
+  h1{ font-size:26px; font-weight:800; line-height:1.32; letter-spacing:-.01em; margin:10px 0; }
+  h1 em{ font-style:normal; color:var(--orange); }
+  h2{ font-size:19px; font-weight:800; line-height:1.4; margin-bottom:8px; }
+  h2 em{ font-style:normal; color:var(--new); }
+  p{ font-size:15px; color:#333; }
+  .sub{ font-size:15px; color:var(--muted); }
+  b, strong{ font-weight:700; }
+  .lead-new b{ color:var(--new); }
+  ul{ margin:10px 0 0 2px; padding-left:18px; }
+  li{ font-size:14.5px; color:#444; margin-bottom:6px; }
+  .snum{ display:inline-flex; width:22px;height:22px;border-radius:50%; background:var(--new); color:#fff; font-size:12px; font-weight:800; align-items:center; justify-content:center; margin-right:8px; vertical-align:1px; }
+
+  /* CTA */
+  .cta{ display:inline-block; background:var(--dark); color:#fff !important; text-decoration:none; font-size:15px; font-weight:700; padding:14px 26px; border-radius:999px; margin-top:16px; }
+  .cta.coral{ background:var(--coral); }
+  .cta-wrap{ text-align:center; }
+
+  /* 히어로 */
+  .hero{ background:var(--dark); color:#fff; text-align:center; padding:34px 30px 30px; }
+  .hero .badge{ display:inline-block; background:var(--coral); color:#fff; font-size:12px; font-weight:800; padding:5px 14px; border-radius:999px; margin-bottom:16px; }
+  .hero h1{ color:#fff; }
+  .hero .sub{ color:#c9c9c9; font-size:15px; }
+
+  /* 기능 카드 */
+  .feat{ margin-top:16px; }
+  .feat h3{ font-size:16px; font-weight:700; margin-bottom:4px; }
+  .feat h3 .k{ color:var(--new); }
+  .feat p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+  .benefit{ background:var(--new-soft); border:1px solid var(--new-line); border-radius:12px; padding:16px 18px; margin-top:10px; }
+  .benefit b{ color:#1f5c3a; }
+
+  /* 이미지 슬롯 */
+  .slot{ border-radius:10px; margin:6px 0 4px; overflow:hidden; }
+  .slot.need{ border:2px dashed var(--coral); background:#fff5f6; padding:26px 16px; text-align:center; }
+  .slot.need .l{ font-size:13px; color:#c0304a; }
+  .slot.need .l b{ color:var(--coral); }
+  .slot.have{ position:relative; border:1px solid var(--line); }
+  .slot.have img{ width:100%; height:auto; display:block; }
+  .slot.have .tag{ position:absolute; top:8px; left:8px; background:var(--new); color:#fff; font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; }
+
+  .foot{ background:#fafafa; text-align:center; padding:26px 30px; color:#999; font-size:12.5px; }
+  .foot .brand{ font-weight:800; color:var(--ink); font-size:14px; margin-bottom:6px; }
+</style>
+</head>
+<body>
+
+<div class="handoff">
+  <b>디자인 핸드오프용 이메일 레이아웃</b> — 아래 순서·문구·이미지 자리대로 에셋을 제작해 주세요.
+  <div class="legend">
+    <span><span class="dot-need"></span> 점선 박스 = <b>새 이미지 에셋 필요</b> (권장 사이즈 표기)</span>
+    <span><span class="dot-have"></span> 초록 태그 = <b>기존 가이드 에셋 재사용 가능</b></span>
+  </div>
+</div>
+
+<div class="email">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="badge">✦ 업데이트 안내</span>
+    <h1>새로워진 라이브클래스<br>판매 전략, <em>확 달라졌습니다</em></h1>
+    <p class="sub">26년 7월부터, 상품 하나로 더 다양한 판매 전략을 운영하세요.</p>
+    <div class="slot need" style="margin-top:20px; background:rgba(255,255,255,.06); border-color:#ff7d92;">
+      <div class="l" style="color:#ffb3c0;">HERO 대표 이미지 · 권장 <b>600 × 380</b> · 디자인 필요<br>(기기 목업 + '판매 전략' 키비주얼 톤)</div>
+    </div>
+  </div>
+
+  <!-- ① 무엇이 달라지나요 -->
+  <div class="sec">
+    <div class="eyebrow">무엇이 달라지나요</div>
+    <h2>상품 하나로, <em>여러 판매 전략을 동시에</em></h2>
+    <p class="lead-new">'새로워진 라이브클래스'는 <b>상품 하나로 여러 판매 조건을 운영하고, 부가 상품까지 함께 파는</b> 판매 전략 개편이에요.</p>
+    <ul>
+      <li>'클래스'가 <b>'상품'</b>으로 — 강의·라이브·디지털 상품·패키지까지</li>
+      <li>새로 생긴 <b>'판매 조건'</b>과 <b>'추가 구성'</b></li>
+    </ul>
+    <p class="sub" style="margin-top:10px; font-size:13px;">* 기존 기능과 데이터는 그대로 유지됩니다.</p>
+  </div>
+
+  <!-- ② 이런 분께 추천 -->
+  <div class="sec">
+    <div class="eyebrow">이런 분께 특히 좋아요</div>
+    <h2>파는 방법이 많아지면, <em>사는 사람도 많아집니다</em></h2>
+    <p style="margin-bottom:6px;"><span class="snum">1</span><b>얼리버드·기수 할인을 자주 여는 분</b> — 상품 복제 없이, 조건만 추가하면 됩니다.</p>
+    <p><span class="snum">2</span><b>교재·코칭·파일을 함께 팔고 싶은 분</b> — '추가 구성'으로 객단가를 높이세요.</p>
+    <div class="benefit" style="background:#fafafa; border-color:var(--line);">
+      <b style="color:var(--ink);">이렇게 활용하세요!</b>
+      <ul style="margin-top:6px;">
+        <li>얼리버드·정가·기수별 가격을 <b>한 상품에서 동시에</b></li>
+        <li>본 강의 + 1:1 코칭권을 <b>묶어서 판매</b></li>
+        <li>수강 기간·판매 기간이 다른 조건도 <b>한 번에</b></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ③ 핵심 기능 -->
+  <div class="sec">
+    <div class="eyebrow">핵심 기능을 알아볼까요</div>
+
+    <div class="feat">
+      <h3><span class="k">01</span> 상품 하나로 여러 판매 조건</h3>
+      <p>복제 없이 얼리버드·정가·기수별 조건을 동시에 운영해요.</p>
+      <div class="slot have"><span class="tag">✓ 재사용 가능</span><img src="assets/lk2_판매설정_판매조건.png" alt="판매 조건 카드"></div>
+    </div>
+
+    <div class="feat">
+      <h3><span class="k">02</span> 부가 상품은 '추가 구성'으로</h3>
+      <p>코칭·파일 등을 함께 제안해 객단가를 높입니다.</p>
+      <div class="slot have"><span class="tag">✓ 재사용 가능</span><img src="assets/lk2_판매설정_추가구성.png" alt="추가 구성"></div>
+    </div>
+
+    <div class="feat">
+      <h3><span class="k">03</span> 구매자는 한 페이지에서 비교·선택</h3>
+      <p>조건을 한눈에 보고, 이탈 없이 결제로 이어져요.</p>
+      <div class="slot have"><span class="tag">✓ 재사용 가능</span><img src="assets/buyer_purchase_dialog.png" alt="구매자 화면"></div>
+    </div>
+  </div>
+
+  <!-- ④ 비즈니스 도움 -->
+  <div class="sec">
+    <div class="eyebrow">비즈니스에 어떤 도움을 주나요</div>
+    <div class="benefit"><b>관리 부담 ↓</b> — 조건이 늘어도 상품은 하나. 복제·관리 안 하셔도 됩니다.</div>
+    <div class="benefit"><b>매출 기회 ↑</b> — 더 많은 판매 방법 = 더 많은 구매 기회.</div>
+    <div class="benefit"><b>이탈 없는 구매</b> — 한 페이지에서 비교하고 바로 결제합니다.</div>
+    <div class="cta-wrap"><a class="cta coral" href="https://liveklass-update-guide.vercel.app/?utm_source=announcement_email&utm_medium=email&utm_campaign=260706_lk20update&utm_content=body_cta">매출 UP 전략 보기 →</a></div>
+  </div>
+
+  <!-- ⑤ 기존 이용자 안내 -->
+  <div class="sec">
+    <div class="eyebrow">기존 이용자라면 확인하세요</div>
+    <h2>바뀐 점 (기존 → 새로워진)</h2>
+    <ul>
+      <li><b>'클래스' → '상품'</b> 명칭 변경 (관리 메뉴·버튼·상세 페이지)</li>
+      <li>관리가 <b>'사이트 관리 &gt; 상품 관리' 한 곳</b>으로 통합</li>
+      <li>상품 상태가 <b>설정 중 / 판매 중 / 판매 중단</b> 3단계로 명확해짐</li>
+      <li><b>(트래킹 사용 시)</b> 결제 페이지 URL 구조 변경 → GA·Meta 커스텀 이벤트 점검 필요</li>
+    </ul>
+    <div class="cta-wrap"><a class="cta" href="https://liveklass-update-guide.vercel.app/?utm_source=announcement_email&utm_medium=email&utm_campaign=260706_lk20update&utm_content=full_guide">전체 변경점 한눈에 보기 →</a></div>
+  </div>
+
+  <!-- ⑥ 다음 업데이트 -->
+  <div class="foot">
+    <div class="brand">✦ LiveKlass</div>
+    라이브클래스는 여러분이 더 잘 파는 것을 돕는 기능을 계속 더해갈 예정입니다.<br>더욱 성장할 라이브클래스를 기대해 주세요!
+  </div>
+
+</div>
+</body>
+</html>
