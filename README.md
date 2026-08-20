@@ -14,8 +14,11 @@
 | 이메일 레이아웃 (참고용) | https://liveklass-update-guide.vercel.app/email-preview.html | 카피·구성 참고 (발송 최종본 아님) |
 | 판매 설정 단품 | https://liveklass-update-guide.vercel.app/sales-settings.html | 판매 설정만 8장 |
 | 기본 서비스 변경점 | https://liveklass-update-guide.vercel.app/basic-changes.html | 이름·상태·목록 등 8장 |
+| **정기결제 출시 안내** | https://liveklass-update-guide.vercel.app/subscription.html | 정기결제(8월 말 출시 예정) 사전 안내 랜딩 |
 
 > ⚠️ `email-preview.html`은 **콘텐츠·카피 참고용**입니다. 실제 뉴스레터는 아래 공식 템플릿으로 제작합니다.
+>
+> ℹ️ `subscription.html`은 **출시 전 사전 안내** 페이지입니다. CTA는 가입이 아니라 [정기결제 사전 문의 폼](https://docs.google.com/forms/d/e/1FAIpQLScMvwCxB2K2u-kl0iJAYJerWA31W6paDfoz54aPDTla1evung/viewform)으로 연결됩니다.
 
 ---
 
